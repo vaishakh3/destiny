@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Heart, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import TinderCard from 'react-tinder-card';
 import MatchAnimation from './MatchAnimation';
 
 interface Profile {
@@ -63,6 +64,7 @@ const WarningModal = ({ onClose }: { onClose: () => void }) => (
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onSwipe }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
+  const [lastDirection, setLastDirection] = useState<string | null>(null);
 
   const userPhotoURL = JSON.parse(localStorage.getItem('profile') || '{}').photoURL;
 
@@ -89,61 +91,86 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onSwipe }) => {
     onSwipe('right');
   };
 
+  const swiped = (direction: string) => {
+    setLastDirection(direction);
+    if (profile.name === 'Vaishakh Suresh') {
+      if (direction === 'left') {
+        toast.success("Nice try! But we're meant to be! 💘");
+      }
+      setShowMatch(true);
+      return;
+    }
+    onSwipe(direction as 'left' | 'right');
+  };
+
+  const outOfFrame = (direction: string) => {
+    console.log(`Card moved ${direction}`);
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-[80vh] p-4">
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        className="w-full max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden mx-auto"
-      >
-        <div className="relative h-96">
-          <img
-            src={profile.photoURL}
-            alt={profile.name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-            <h2 className="text-2xl font-bold text-white">
-              {profile.name}, {profile.age}
-            </h2>
-            <p className="text-white/90">{profile.location}</p>
-          </div>
-        </div>
-        
-        <div className="p-6">
-          <p className="text-gray-700 mb-4">{profile.bio}</p>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {profile.interests.map((interest, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm"
-              >
-                {interest}
-              </span>
-            ))}
-          </div>
-          
-          <div className="flex justify-center gap-6">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleDislike}
-              className="p-4 rounded-full bg-red-100 text-red-500 hover:bg-red-200 transition-colors"
-            >
-              <X size={24} />
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleLike}
-              className="p-4 rounded-full bg-green-100 text-green-500 hover:bg-green-200 transition-colors"
-            >
-              <Heart size={24} />
-            </motion.button>
-          </div>
-        </div>
-      </motion.div>
+    <div className="flex justify-center items-center min-h-[10vh] p-4">
+      <div className="relative w-full max-w-sm">
+        <TinderCard
+          className="absolute"
+          onSwipe={swiped}
+          onCardLeftScreen={outOfFrame}
+          preventSwipe={['up', 'down']}
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="w-full max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden mx-auto"
+          >
+            <div className="relative h-96">
+              <img
+                src={profile.photoURL}
+                alt={profile.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                <h2 className="text-2xl font-bold text-white">
+                  {profile.name}, {profile.age}
+                </h2>
+                <p className="text-white/90">{profile.location}</p>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <p className="text-gray-700 mb-4">{profile.bio}</p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {profile.interests.map((interest, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm"
+                  >
+                    {interest}
+                  </span>
+                ))}
+              </div>
+              
+              <div className="flex justify-center gap-6">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={handleDislike}
+                  className="p-4 rounded-full bg-red-100 text-red-500 hover:bg-red-200 transition-colors"
+                >
+                  <X size={24} />
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={handleLike}
+                  className="p-4 rounded-full bg-green-100 text-green-500 hover:bg-green-200 transition-colors"
+                >
+                  <Heart size={24} />
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </TinderCard>
+      </div>
 
       <AnimatePresence>
         {showWarning && <WarningModal onClose={() => setShowWarning(false)} />}
