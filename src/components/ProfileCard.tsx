@@ -108,7 +108,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onSwipe }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[10vh] p-4">
+    <div className="flex justify-center items-center min-h-[80vh] p-4">
       <div className="relative w-full max-w-sm">
         <TinderCard
           className="absolute"
