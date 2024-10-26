@@ -226,19 +226,19 @@ function App() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center p-4">
+        <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full text-center transition-transform transform hover:scale-105">
           <img
             src="https://i.ibb.co/tbn0rXC/destiny.png"
             alt="Destiny Logo"
-            className="mx-auto mb-0 h-32 w-auto" // Increased the height to h-32 for a larger display
+            className="mx-auto mb-4 h-32 w-auto"
           />
-          <h1 className="text-3xl font-bold text-purple-600">Destiny</h1>
-          <p className="text-gray-600 mb-8">Sign in to start your journey to love</p>
+          <h1 className="text-4xl font-extrabold text-purple-700">Destiny</h1>
+          <p className="text-gray-700 mb-6 text-lg">Sign in to start your journey to love</p>
           <button
             onClick={handleLogin}
             disabled={loading}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+            className="flex items-center justify-center gap-2 w-full py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors disabled:opacity-50"
           >
             <LogIn size={20} />
             {loading ? 'Signing in...' : 'Sign in with Google'}
@@ -247,11 +247,10 @@ function App() {
       </div>
     );
   }
-  
 
   if (!hasProfile) {
     return (
-      <div className="min-h-screen bg-gray-100 p-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <ProfileSetup user={user} onComplete={() => setHasProfile(true)} />
       </div>
     );
@@ -260,13 +259,13 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Toaster position="top-center" />
-      
-      <nav className="bg-white shadow-sm p-4">
+
+      <nav className="bg-white shadow-md p-4">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-purple-600">Destiny</h1>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-purple-600 transition-colors"
           >
             <LogOut size={20} />
             Logout
