@@ -22,9 +22,9 @@ const MatchAnimation: React.FC<MatchAnimationProps> = ({ profile, userPhotoURL, 
     >
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1, x: -48, y: -135 }}
+        animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.5, opacity: 0 }}
-        className="bg-gradient-to-br from-purple-600 to-pink-600 p-6 sm:p-8 rounded-3xl text-center max-w-xs sm:max-w-sm w-full"
+        className="bg-gradient-to-br from-purple-600 to-pink-600 p-6 sm:p-8 rounded-3xl text-center max-w-xs sm:max-w-sm w-full mx-auto"
         onClick={e => e.stopPropagation()}
       >
         <motion.div
@@ -95,5 +95,6 @@ const MatchAnimation: React.FC<MatchAnimationProps> = ({ profile, userPhotoURL, 
     </motion.div>
   </AnimatePresence>
 );
+
 
 export default MatchAnimation;

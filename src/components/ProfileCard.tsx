@@ -28,10 +28,10 @@ const WarningModal = ({ onClose }: { onClose: () => void }) => (
     onClick={onClose}
   >
     <motion.div
-      initial={{ scale: 0.5, opacity: 0, x: 5 }}
-      animate={{ scale: 1, opacity: 1, x: -35 }}
+      initial={{ scale: 0.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.5, opacity: 0 }}
-      className="bg-white rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm md:max-w-md mx-4 text-center shadow-xl flex flex-col items-center"
+      className="bg-white rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm md:max-w-md mx-auto text-center shadow-xl flex flex-col items-center"
       onClick={e => e.stopPropagation()}
     >
       <motion.div
@@ -60,12 +60,10 @@ const WarningModal = ({ onClose }: { onClose: () => void }) => (
   </motion.div>
 );
 
-
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onSwipe }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
 
-  // Retrieve user photo URL from local storage each time component renders
   const userPhotoURL = JSON.parse(localStorage.getItem('profile') || '{}').photoURL;
 
   const handleLike = () => {
@@ -92,12 +90,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onSwipe }) => {
   };
 
   return (
-    <>
+    <div className="flex justify-center items-center min-h-[80vh] p-4">
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
-        className="w-full max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden"
+        className="w-full max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden mx-auto"
       >
         <div className="relative h-96">
           <img
@@ -152,12 +150,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onSwipe }) => {
         {showMatch && (
           <MatchAnimation
             profile={profile}
-            userPhotoURL={userPhotoURL} // Pass the user's photo URL here
+            userPhotoURL={userPhotoURL} 
             onClose={handleMatchClose}
           />
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 
